@@ -1,0 +1,112 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  LG Smart — 웹폰트 (font/ 디렉토리에서 로드)
+  한글 범위에 적용, 영문/숫자에는 Arial Narrow 적용
+*/
+@font-face {
+  font-family: 'LG Smart';
+  src: local('LG Smart Light'), local('LGSmartLight'),
+       url('/font/LG Smart Light.ttf') format('truetype');
+  font-weight: 300;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'LG Smart';
+  src: local('LG Smart Regular'), local('LGSmartRegular'),
+       url('/font/LG Smart Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'LG Smart';
+  src: local('LG Smart Regular Italic'), local('LGSmartRegularItalic'),
+       url('/font/LG Smart Regular Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'LG Smart';
+  src: local('LG Smart SemiBold'), local('LGSmartSemiBold'),
+       url('/font/LG Smart SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'LG Smart';
+  src: local('LG Smart Bold'), local('LGSmartBold'),
+       url('/font/LG Smart Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'LG Smart';
+  src: local('LG Smart Bold Italic'), local('LGSmartBoldItalic'),
+       url('/font/LG Smart Bold Italic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* AppFont: LG Smart 한글 + Arial Narrow 영문 합성 */
+@font-face {
+  font-family: 'AppFont';
+  src: local('LG Smart Regular'), local('LGSmartRegular'),
+       url('/font/LG Smart Regular.ttf') format('truetype');
+  unicode-range: U+AC00-D7A3, U+1100-11FF, U+3130-318F, U+A960-A97F, U+D7B0-D7FF,
+                 U+3000-303F, U+2010-205F;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'AppFont';
+  src: local('LG Smart SemiBold'), local('LGSmartSemiBold'),
+       url('/font/LG Smart SemiBold.ttf') format('truetype');
+  unicode-range: U+AC00-D7A3, U+1100-11FF, U+3130-318F, U+A960-A97F, U+D7B0-D7FF;
+  font-weight: 500 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'AppFont';
+  src: local('LG Smart Bold'), local('LGSmartBold'),
+       url('/font/LG Smart Bold.ttf') format('truetype');
+  unicode-range: U+AC00-D7A3, U+1100-11FF, U+3130-318F, U+A960-A97F, U+D7B0-D7FF;
+  font-weight: 700 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'AppFont';
+  src: local('Arial Narrow'), local('ArialNarrow');
+  unicode-range: U+0020-007F, U+00A0-00FF, U+0100-024F;
+  font-weight: 100 900;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'AppFont', 'LG Smart', 'Arial Narrow', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.01em;
+  background: #F9FAFB;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
