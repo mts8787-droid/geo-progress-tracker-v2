@@ -29,9 +29,18 @@ function rowKey(r) {
   return `${r.stakeholder}|${r.taskCategory}|${r.task}|${r.pageType}|${r.detail}`
 }
 
-function buildLookup(rows) {
+/**
+ * Build a lookup map keyed by goal rows' composite key.
+ * Uses index-based matching: goalRows[i] ↔ dataRows[i].
+ * This avoids mismatches when 표2/표3 have empty metadata columns.
+ */
+function buildLookup(goalRows, dataRows) {
   const map = {}
-  rows.forEach(r => { map[rowKey(r)] = r })
+  goalRows.forEach((g, idx) => {
+    if (idx < dataRows.length) {
+      map[rowKey(g)] = dataRows[idx]
+    }
+  })
   return map
 }
 
@@ -41,8 +50,8 @@ function computeDashboard(data, month, stakeholderFilter, categoryFilter) {
   const rates = data.quantitativeRates
   const monthIdx = MONTHS.indexOf(month)
 
-  const actualMap = buildLookup(actuals.rows)
-  const rateMap = buildLookup(rates.rows)
+  const actualMap = buildLookup(goals.rows, actuals.rows)
+  const rateMap = buildLookup(goals.rows, rates.rows)
 
   let tasks = goals.rows.map((g) => {
     const key = rowKey(g)
