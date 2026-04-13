@@ -25,9 +25,13 @@ function parseRate(v) {
   return null
 }
 
+function rowKey(r) {
+  return `${r.stakeholder}|${r.taskCategory}|${r.task}|${r.pageType}|${r.detail}`
+}
+
 function buildLookup(rows) {
   const map = {}
-  rows.forEach(r => { map[`${r.stakeholder}|${r.task}`] = r })
+  rows.forEach(r => { map[rowKey(r)] = r })
   return map
 }
 
@@ -41,7 +45,7 @@ function computeDashboard(data, month, stakeholderFilter, categoryFilter) {
   const rateMap = buildLookup(rates.rows)
 
   let tasks = goals.rows.map((g) => {
-    const key = `${g.stakeholder}|${g.task}`
+    const key = rowKey(g)
     const a = actualMap[key] || {}
     const r = rateMap[key] || {}
     const goal = typeof g.monthly?.[month] === 'number' ? g.monthly[month] : 0
@@ -117,7 +121,7 @@ function computeDashboard(data, month, stakeholderFilter, categoryFilter) {
 
   // 스테이크홀더별 (카테고리 필터 적용, stakeholder 필터 없이 전체 태스크 사용)
   let allTasks = goals.rows.map((g) => {
-    const key = `${g.stakeholder}|${g.task}`
+    const key = rowKey(g)
     const a = actualMap[key] || {}
     const r = rateMap[key] || {}
     const gv = typeof g.monthly?.[month] === 'number' ? g.monthly[month] : 0
@@ -187,7 +191,7 @@ function computeDashboard(data, month, stakeholderFilter, categoryFilter) {
     const catGoals = shFilteredGoals.filter(g => g.taskCategory === cat)
     let mAct = 0, mGoal = 0, cAct = 0, cGoal = 0, annualGoal = 0
     catGoals.forEach(g => {
-      const key = `${g.stakeholder}|${g.task}`
+      const key = rowKey(g)
       const a = actualMap[key] || {}
       const gv = typeof g.monthly?.[month] === 'number' ? g.monthly[month] : 0
       const av = typeof a.monthly?.[month] === 'number' ? a.monthly[month] : 0
@@ -212,7 +216,7 @@ function computeDashboard(data, month, stakeholderFilter, categoryFilter) {
       let smAct = 0, smGoal = 0
       const shTasks = []
       catGoals.filter(g => g.stakeholder === sh).forEach(g => {
-        const key = `${g.stakeholder}|${g.task}`
+        const key = rowKey(g)
         const a = actualMap[key] || {}
         const r = rateMap[key] || {}
         const tGoal = typeof g.monthly?.[month] === 'number' ? g.monthly[month] : 0
@@ -230,7 +234,7 @@ function computeDashboard(data, month, stakeholderFilter, categoryFilter) {
     // 달성/미달성 과제수
     let achieved = 0, missed = 0
     catGoals.forEach(g => {
-      const key = `${g.stakeholder}|${g.task}`
+      const key = rowKey(g)
       const a = actualMap[key] || {}
       const tGoal = typeof g.monthly?.[month] === 'number' ? g.monthly[month] : 0
       const tAct = typeof a.monthly?.[month] === 'number' ? a.monthly[month] : 0
