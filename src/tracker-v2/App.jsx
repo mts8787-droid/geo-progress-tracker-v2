@@ -578,6 +578,7 @@ export default function App() {
                     <div style={{ marginBottom: 16 }}>
                       <h4 style={{
                         margin: '0 0 8px',
+                        paddingLeft: 19,
                         fontSize: 17,
                         fontWeight: 700,
                         color: '#0F172A',
@@ -598,6 +599,7 @@ export default function App() {
                       <div>
                         <h4 style={{
                           margin: '0 0 8px',
+                          paddingLeft: 19,
                           fontSize: 17,
                           fontWeight: 700,
                           color: '#0F172A',
