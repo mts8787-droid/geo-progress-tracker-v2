@@ -3,7 +3,6 @@ import { PanelLeftClose, PanelLeftOpen } from 'lucide-react'
 import { useSheetData } from './hooks/useSheetData'
 import Header from './components/Header'
 import SummaryCards from './components/SummaryCards'
-import PerformanceCharts from './components/PerformanceCharts'
 import StakeholderRanking from './components/StakeholderRanking'
 import CategoryRanking from './components/CategoryRanking'
 import CategoryDashboard from './components/CategoryDashboard'
@@ -256,6 +255,14 @@ function computeDashboard(data, month, stakeholderFilter, categoryFilter) {
     return { category: cat, taskCount: catGoals.length, monthRate, cumRate, progressRate, monthActual: mAct, monthGoal: mGoal, cumActual: cAct, cumGoal: cGoal, annualGoal, stakeholders, achieved, missed }
   })
 
+  // 카테고리 표시 순서 고정: 콘텐츠수정 → 신규콘텐츠제작 → 외부채널관리 → 닷컴기술개선
+  const CATEGORY_ORDER = ['콘텐츠수정', '신규콘텐츠제작', '외부채널관리', '닷컴기술개선']
+  categoryStats.sort((a, b) => {
+    const ai = CATEGORY_ORDER.indexOf(a.category)
+    const bi = CATEGORY_ORDER.indexOf(b.category)
+    return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi)
+  })
+
   const totalsRate = parseRate(rates.totals?.monthly?.[month])
   const currentMT = monthlyTotals.find(t => t.month === month)
   const monthActual = currentMT?.actual || 0
@@ -500,8 +507,19 @@ export default function App() {
                 </span>
               </div>
 
-              {/* 전체 요약 */}
+              {/* 과제 카테고리별 달성률 */}
               <div style={{ marginBottom: 16 }}>
+                <CategoryRanking
+                  categories={dashboard.categoryStats}
+                  month={selectedMonth}
+                  selectedCategory={selectedCategory}
+                  onSelectCategory={setSelectedCategory}
+                  lang={lang}
+                />
+              </div>
+
+              {/* 전체 요약 */}
+              <div>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: 14, marginBottom: 10 }}>
                   <h3 style={{ margin: 0, fontSize: 20, fontWeight: 900, color: '#F8FAFC' }}>
                     {lang === 'en' ? 'Overall Summary' : '전체 요약'}
@@ -521,26 +539,6 @@ export default function App() {
                   achievedCount={dashboard.achievedCount}
                   missedCount={dashboard.missedCount}
                   month={selectedMonth}
-                  lang={lang}
-                />
-              </div>
-
-              {/* 월별 추세 */}
-              <div>
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: 14, marginBottom: 8 }}>
-                  <h3 style={{ margin: 0, fontSize: 20, fontWeight: 900, color: '#F8FAFC' }}>
-                    {lang === 'en' ? 'Monthly Trend' : '월별 추세'}
-                  </h3>
-                  <p style={{ margin: 0, fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>
-                    {lang === 'en' ? 'Goal vs actual and cumulative progress' : '월별 목표·실적 및 누적 진척'}
-                  </p>
-                </div>
-                <div style={{ height: 1, background: '#1E293B', marginBottom: 10 }} />
-                <PerformanceCharts
-                  monthlyTotals={dashboard.monthlyTotals}
-                  cumulative={dashboard.cumulative}
-                  annualTarget={dashboard.annualTarget}
-                  selectedMonth={selectedMonth}
                   lang={lang}
                 />
               </div>
