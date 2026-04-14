@@ -11,19 +11,17 @@ export default function CategoryCards({ categories, month, lang = 'ko', selected
   if (!categories || categories.length === 0) return null
 
   return (
-    <div style={{
-      background: '#0B1220',
-      border: '1px solid #1E293B',
-      borderRadius: 14,
-      padding: '16px 18px 18px',
-    }}>
-      {/* 타이틀 */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
-        <span style={{ display: 'inline-block', width: 4, height: 20, background: '#CF0652', borderRadius: 2 }} />
-        <h3 style={{ margin: 0, fontSize: 18, fontWeight: 800, color: '#F8FAFC' }}>
+    <div>
+      {/* 타이틀 — 전체 요약과 동일한 레벨 */}
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: 14, marginBottom: 10 }}>
+        <h3 style={{ margin: 0, fontSize: 20, fontWeight: 900, color: '#F8FAFC' }}>
           {lang === 'en' ? 'Category Achievement Rate' : '과제 구분별 달성률'}
         </h3>
+        <p style={{ margin: 0, fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>
+          {lang === 'en' ? 'Monthly and cumulative rates by category' : '카테고리별 월·누적 달성률'}
+        </p>
       </div>
+      <div style={{ height: 1, background: '#1E293B', marginBottom: 12 }} />
 
       {/* 카드 그리드 */}
       <div style={{
