@@ -13,13 +13,27 @@ export default function CategoryCards({ categories, month, lang = 'ko', selected
   return (
     <div>
       {/* 타이틀 — 전체 요약과 동일한 레벨 */}
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: 14, marginBottom: 10 }}>
-        <h3 style={{ margin: 0, fontSize: 20, fontWeight: 900, color: '#F8FAFC' }}>
-          {lang === 'en' ? 'Category Achievement Rate' : '과제 구분별 달성률'}
-        </h3>
-        <p style={{ margin: 0, fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>
-          {lang === 'en' ? 'Metrics by category' : '카테고리별 지표'}
-        </p>
+      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 14, marginBottom: 10, flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 14, flexWrap: 'wrap' }}>
+          <h3 style={{ margin: 0, fontSize: 20, fontWeight: 900, color: '#F8FAFC' }}>
+            {lang === 'en' ? 'Category Achievement Rate' : '과제 구분별 달성률'}
+          </h3>
+          <p style={{ margin: 0, fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>
+            {lang === 'en' ? 'Metrics by category' : '카테고리별 지표'}
+          </p>
+        </div>
+        {/* 색상 범례 */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, fontSize: 12, color: '#94A3B8' }}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+            <span style={{ width: 9, height: 9, borderRadius: '50%', background: '#15803D' }} />≥100%
+          </span>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+            <span style={{ width: 9, height: 9, borderRadius: '50%', background: '#D97706' }} />≥80%
+          </span>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+            <span style={{ width: 9, height: 9, borderRadius: '50%', background: '#BE123C' }} />{'<80%'}
+          </span>
+        </div>
       </div>
       <div style={{ height: 1, background: '#1E293B', marginBottom: 12 }} />
 

@@ -10,7 +10,7 @@ export default function Header({
 }) {
   return (
     <header className="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-[#E2E8F0] shadow-sm">
-      <div className="max-w-[1400px] mx-auto px-5 py-3 flex items-center justify-between gap-3 flex-wrap">
+      <div className="max-w-[1400px] mx-auto px-5 pt-3 pb-2 flex items-center justify-between gap-3 flex-wrap">
         {/* Left: title */}
         <div className="flex items-center gap-3">
           <span className="w-2 h-6 rounded-full bg-[#CF0652]" />
@@ -19,40 +19,6 @@ export default function Header({
             ? <span className="text-[16px] font-semibold text-[#15803D] bg-[#ECFDF5] border border-[#A7F3D0] px-2 py-0.5 rounded">{t(lang, 'published')}</span>
             : <span className="text-[16px] font-medium text-[#94A3B8] ml-1">{t(lang, 'admin')}</span>
           }
-        </div>
-
-        {/* Center: month selector + stakeholder filter + category badge */}
-        <div className="flex items-center gap-2 flex-wrap">
-          <select
-            value={selectedMonth}
-            onChange={e => setSelectedMonth(e.target.value)}
-            className="appearance-none bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg px-3 py-1.5 pr-8 text-[16px] font-bold text-[#111827] cursor-pointer hover:border-[#CBD5E1] focus:outline-none focus:border-[#CF0652] transition-colors"
-          >
-            {MONTHS.map(m => (
-              <option key={m} value={m}>{tMonth(lang, m)}</option>
-            ))}
-          </select>
-
-          <div className="flex items-center gap-1 flex-wrap">
-            {[t(lang, 'all'), ...stakeholderList].map((sh, i) => {
-              const rawSH = i === 0 ? '전체' : sh
-              const isActive = selectedSH === rawSH
-              const color = rawSH === '전체' ? '#64748B' : (STAKEHOLDER_COLORS[rawSH] || '#64748B')
-              return (
-                <button
-                  key={rawSH}
-                  onClick={() => setSelectedSH(rawSH)}
-                  className={`px-2.5 py-1 rounded-md text-[16px] font-bold transition-all ${
-                    isActive ? 'text-white shadow-sm' : 'text-[#111827] hover:text-[#1E293B] hover:bg-[#F1F5F9]'
-                  }`}
-                  style={isActive ? { backgroundColor: color } : undefined}
-                >
-                  {i === 0 ? t(lang, 'all') : tSH(lang, sh)}
-                </button>
-              )
-            })}
-          </div>
-
         </div>
 
         {/* Right: lang toggle + admin buttons */}
@@ -97,6 +63,39 @@ export default function Header({
               )}
             </>
           )}
+        </div>
+      </div>
+
+      {/* Row 2: month + stakeholder filters */}
+      <div className="max-w-[1400px] mx-auto px-5 pb-3 flex items-center gap-2 flex-wrap">
+        <select
+          value={selectedMonth}
+          onChange={e => setSelectedMonth(e.target.value)}
+          className="appearance-none bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg px-3 py-1.5 pr-8 text-[16px] font-bold text-[#111827] cursor-pointer hover:border-[#CBD5E1] focus:outline-none focus:border-[#CF0652] transition-colors"
+        >
+          {MONTHS.map(m => (
+            <option key={m} value={m}>{tMonth(lang, m)}</option>
+          ))}
+        </select>
+
+        <div className="flex items-center gap-1 flex-wrap">
+          {[t(lang, 'all'), ...stakeholderList].map((sh, i) => {
+            const rawSH = i === 0 ? '전체' : sh
+            const isActive = selectedSH === rawSH
+            const color = rawSH === '전체' ? '#64748B' : (STAKEHOLDER_COLORS[rawSH] || '#64748B')
+            return (
+              <button
+                key={rawSH}
+                onClick={() => setSelectedSH(rawSH)}
+                className={`px-2.5 py-1 rounded-md text-[16px] font-bold transition-all ${
+                  isActive ? 'text-white shadow-sm' : 'text-[#111827] hover:text-[#1E293B] hover:bg-[#F1F5F9]'
+                }`}
+                style={isActive ? { backgroundColor: color } : undefined}
+              >
+                {i === 0 ? t(lang, 'all') : tSH(lang, sh)}
+              </button>
+            )
+          })}
         </div>
       </div>
 
