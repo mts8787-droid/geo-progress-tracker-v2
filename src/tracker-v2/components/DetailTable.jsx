@@ -72,7 +72,7 @@ export default function DetailTable({ tasks, categoryStats = [], month, lang = '
                 padding: '16px 20px',
                 cursor: 'pointer',
                 background: isOpen ? '#F8FAFC' : '#FFFFFF',
-                borderLeft: `5px solid ${ps.dot}`,
+                borderLeft: `5px solid ${ms.dot}`,
                 transition: 'background 0.15s',
               }}
             >
