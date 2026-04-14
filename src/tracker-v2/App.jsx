@@ -363,7 +363,13 @@ export default function App() {
 
   const categoryList = useMemo(() => {
     if (!data) return []
-    return [...new Set(data.quantitativeGoals.rows.map(r => r.taskCategory).filter(Boolean))]
+    const ORDER = ['콘텐츠수정', '신규콘텐츠제작', '외부채널관리', '닷컴기술개선']
+    const list = [...new Set(data.quantitativeGoals.rows.map(r => r.taskCategory).filter(Boolean))]
+    return list.sort((a, b) => {
+      const ai = ORDER.indexOf(a)
+      const bi = ORDER.indexOf(b)
+      return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi)
+    })
   }, [data])
 
   const dashboard = useMemo(() => {
