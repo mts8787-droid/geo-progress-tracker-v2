@@ -17,6 +17,9 @@ export default function CategoryCards({ categories, month, lang = 'ko', selected
         <h3 style={{ margin: 0, fontSize: 20, fontWeight: 900, color: '#F8FAFC' }}>
           {lang === 'en' ? 'Category Achievement Rate' : '과제 구분별 달성률'}
         </h3>
+        <p style={{ margin: 0, fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>
+          {lang === 'en' ? 'Metrics by category' : '카테고리별 지표'}
+        </p>
       </div>
       <div style={{ height: 1, background: '#1E293B', marginBottom: 12 }} />
 

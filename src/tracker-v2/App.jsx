@@ -566,7 +566,7 @@ export default function App() {
               <section style={{ marginBottom: 32 }}>
                 <SectionHeader
                   title={lang === 'en' ? 'Qualitative Tasks' : '정성 과제'}
-                  subtitle={lang === 'en' ? 'Pass / In-progress / Not-passed status — grouped by category' : '달성 / 진행 / 미달성 상태 — 카테고리별 그룹화'}
+                  subtitle={lang === 'en' ? 'Category-level status with task details' : '카테고리별 달성 현황 및 과제 상세'}
                 />
                 <QualitativeTable
                   goals={data.qualitativeGoals.rows}
