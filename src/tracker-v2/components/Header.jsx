@@ -53,29 +53,6 @@ export default function Header({
             })}
           </div>
 
-          {/* Category filter buttons */}
-          {categoryList.length > 0 && (
-            <>
-              <span style={{ width: 1, height: 20, background: '#E2E8F0', margin: '0 4px' }} />
-              <div className="flex items-center gap-1 flex-wrap">
-                {categoryList.map(cat => {
-                  const isActive = selectedCategory === cat
-                  return (
-                    <button
-                      key={cat}
-                      onClick={() => setSelectedCategory?.(isActive ? null : cat)}
-                      className={`px-2.5 py-1 rounded-md text-[16px] font-bold transition-all ${
-                        isActive ? 'text-white shadow-sm' : 'text-[#111827] hover:text-[#1E293B] hover:bg-[#F1F5F9]'
-                      }`}
-                      style={isActive ? { backgroundColor: '#CF0652' } : undefined}
-                    >
-                      {tCat(lang, cat)}
-                    </button>
-                  )
-                })}
-              </div>
-            </>
-          )}
         </div>
 
         {/* Right: lang toggle + admin buttons */}
