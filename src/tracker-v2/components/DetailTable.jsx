@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { STAKEHOLDER_COLORS, statusOf } from '../utils/constants'
 import { t, tSH, tCat, tMonth } from '../../shared/i18n.js'
 
@@ -16,8 +15,6 @@ function catSortKey(name) {
 }
 
 export default function DetailTable({ tasks, categoryStats = [], month, lang = 'ko', tr = {} }) {
-  const [expanded, setExpanded] = useState({})
-
   // 카테고리별 그룹핑
   const byCategory = {}
   ;(tasks || []).forEach(tk => {
@@ -35,45 +32,45 @@ export default function DetailTable({ tasks, categoryStats = [], month, lang = '
   const statsByName = {}
   ;(categoryStats || []).forEach(c => { statsByName[c.category] = c })
 
-  function toggleExpand(cat) {
-    setExpanded(s => ({ ...s, [cat]: !s[cat] }))
+  if (allCats.length === 0) {
+    return (
+      <div style={{ background: '#FFFFFF', border: '1px solid #E2E8F0', borderRadius: 12, padding: '32px 12px', textAlign: 'center', color: '#94A3B8', fontSize: 16 }}>
+        {t(lang, 'noTasksForSH')}
+      </div>
+    )
   }
 
   return (
-    <div style={{ background: '#FFFFFF', border: '1px solid #E2E8F0', borderRadius: 12, overflow: 'hidden', boxShadow: '0 1px 3px rgba(15,23,42,0.06)' }}>
-      {allCats.length === 0 && (
-        <p style={{ padding: '32px 12px', textAlign: 'center', color: '#94A3B8', fontSize: 16, margin: 0 }}>
-          {t(lang, 'noTasksForSH')}
-        </p>
-      )}
-
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
       {allCats.map(cat => {
         const rows = byCategory[cat] || []
         const stat = statsByName[cat]
-        const isOpen = !!expanded[cat]
         const ms = statusOf(stat?.monthRate || 0)
         const ps = statusOf(stat?.progressRate || 0)
         const monthBarW = Math.min(stat?.monthRate || 0, 100)
         const progBarW = Math.min(stat?.progressRate || 0, 100)
 
         return (
-          <div key={cat} style={{ borderBottom: '1px solid #E2E8F0' }}>
-            {/* 카테고리 큰 헤더 (CategoryDashboard 스타일, 밝은 배경) */}
+          <div
+            key={cat}
+            style={{
+              background: '#FFFFFF',
+              border: '1px solid #E2E8F0',
+              borderRadius: 12,
+              overflow: 'hidden',
+              boxShadow: '0 1px 3px rgba(15,23,42,0.06)',
+              borderLeft: `5px solid ${ms.dot}`,
+            }}
+          >
+            {/* 카테고리 헤더 */}
             <div
-              role="button"
-              tabIndex={0}
-              onClick={() => toggleExpand(cat)}
-              onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleExpand(cat) } }}
               style={{
                 display: 'grid',
-                gridTemplateColumns: '220px 1fr 1fr 110px 110px 30px',
+                gridTemplateColumns: '220px 1fr 1fr 110px 110px',
                 gap: 16,
                 alignItems: 'center',
                 padding: '16px 20px',
-                cursor: 'pointer',
-                background: isOpen ? '#F8FAFC' : '#FFFFFF',
-                borderLeft: `5px solid ${ms.dot}`,
-                transition: 'background 0.15s',
+                background: '#FFFFFF',
               }}
             >
               {/* 카테고리명 */}
@@ -136,15 +133,10 @@ export default function DetailTable({ tasks, categoryStats = [], month, lang = '
                 </div>
                 <div style={{ fontSize: 22, fontWeight: 900, color: '#BE123C', fontVariantNumeric: 'tabular-nums' }}>{stat?.missed || 0}</div>
               </div>
-
-              {/* 펼침 화살표 */}
-              <div style={{ textAlign: 'center', fontSize: 18, color: '#94A3B8', userSelect: 'none' }}>
-                {isOpen ? '▾' : '▸'}
-              </div>
             </div>
 
-            {/* 펼침 영역: 과제 리스트 테이블 */}
-            {isOpen && rows.length > 0 && (
+            {/* 과제 리스트 — 항상 펼쳐짐 */}
+            {rows.length > 0 && (
               <div style={{ borderTop: '1px solid #E2E8F0', background: '#FFFFFF' }}>
                 <div className="overflow-x-auto">
                   <table style={{ width: '100%', fontSize: 14, borderCollapse: 'collapse' }}>

@@ -549,7 +549,7 @@ export default function App() {
             <section style={{ marginBottom: 32 }}>
               <SectionHeader
                 title={lang === 'en' ? 'Quantitative Tasks by Category' : '정량 과제 (카테고리별)'}
-                subtitle={lang === 'en' ? 'Click a category to expand task list' : '카테고리를 클릭하면 과제 리스트가 펼쳐집니다'}
+                subtitle={lang === 'en' ? 'Category-level progress with task details' : '카테고리별 진척 및 과제 상세'}
               />
               <DetailTable
                 tasks={dashboard.tasks}

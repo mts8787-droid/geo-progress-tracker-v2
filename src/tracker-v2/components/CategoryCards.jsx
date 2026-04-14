@@ -17,9 +17,6 @@ export default function CategoryCards({ categories, month, lang = 'ko', selected
         <h3 style={{ margin: 0, fontSize: 20, fontWeight: 900, color: '#F8FAFC' }}>
           {lang === 'en' ? 'Category Achievement Rate' : '과제 구분별 달성률'}
         </h3>
-        <p style={{ margin: 0, fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>
-          {lang === 'en' ? 'Monthly and cumulative rates by category' : '카테고리별 월·누적 달성률'}
-        </p>
       </div>
       <div style={{ height: 1, background: '#1E293B', marginBottom: 12 }} />
 
@@ -91,7 +88,7 @@ export default function CategoryCards({ categories, month, lang = 'ko', selected
               <div>
                 <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 6, gap: 6 }}>
                   <span style={{ fontSize: 13, color: '#94A3B8' }}>
-                    {lang === 'en' ? 'Cumulative Rate' : '누적 달성률'}
+                    {lang === 'en' ? 'Annual Progress' : '연간 진척률'}
                   </span>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'nowrap' }}>
                     <span style={{ width: 7, height: 7, borderRadius: '50%', background: pSt.dot, flexShrink: 0 }} />
