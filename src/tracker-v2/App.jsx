@@ -5,6 +5,7 @@ import Header from './components/Header'
 import SummaryCards from './components/SummaryCards'
 import StakeholderRanking from './components/StakeholderRanking'
 import CategoryRanking from './components/CategoryRanking'
+import CategoryCards from './components/CategoryCards'
 import CategoryDashboard from './components/CategoryDashboard'
 import SectionHeader from './components/SectionHeader'
 import DetailTable from './components/DetailTable'
@@ -507,9 +508,9 @@ export default function App() {
                 </span>
               </div>
 
-              {/* 과제 카테고리별 달성률 */}
+              {/* 과제 구분별 달성률 (4박스 카드) */}
               <div style={{ marginBottom: 16 }}>
-                <CategoryRanking
+                <CategoryCards
                   categories={dashboard.categoryStats}
                   month={selectedMonth}
                   selectedCategory={selectedCategory}
