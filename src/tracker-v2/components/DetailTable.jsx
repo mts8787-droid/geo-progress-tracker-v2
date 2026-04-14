@@ -45,10 +45,12 @@ export default function DetailTable({ tasks, categoryStats = [], month, lang = '
       {allCats.map(cat => {
         const rows = byCategory[cat] || []
         const stat = statsByName[cat]
-        const ms = statusOf(stat?.monthRate || 0)
-        const ps = statusOf(stat?.progressRate || 0)
-        const monthBarW = Math.min(stat?.monthRate || 0, 100)
-        const progBarW = Math.min(stat?.progressRate || 0, 100)
+        const monthRateVal = stat?.monthRate == null ? null : stat.monthRate
+        const progRateVal = stat?.progressRate == null ? null : stat.progressRate
+        const ms = statusOf(monthRateVal)
+        const ps = statusOf(progRateVal)
+        const monthBarW = Math.min(monthRateVal || 0, 100)
+        const progBarW = Math.min(progRateVal || 0, 100)
 
         return (
           <div
@@ -90,7 +92,7 @@ export default function DetailTable({ tasks, categoryStats = [], month, lang = '
                   </span>
                   <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
                     <span style={{ fontSize: 22, fontWeight: 900, color: ms.text, fontVariantNumeric: 'tabular-nums' }}>
-                      {(stat?.monthRate || 0).toFixed(0)}<span style={{ fontSize: 14 }}>%</span>
+                      {monthRateVal == null ? '—' : <>{monthRateVal.toFixed(0)}<span style={{ fontSize: 14 }}>%</span></>}
                     </span>
                     <span style={{ fontSize: 11, color: '#94A3B8' }}>{fmt(stat?.monthActual || 0)}/{fmt(stat?.monthGoal || 0)}</span>
                   </div>
@@ -108,7 +110,7 @@ export default function DetailTable({ tasks, categoryStats = [], month, lang = '
                   </span>
                   <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
                     <span style={{ fontSize: 22, fontWeight: 900, color: ps.text, fontVariantNumeric: 'tabular-nums' }}>
-                      {(stat?.progressRate || 0).toFixed(0)}<span style={{ fontSize: 14 }}>%</span>
+                      {progRateVal == null ? '—' : <>{progRateVal.toFixed(0)}<span style={{ fontSize: 14 }}>%</span></>}
                     </span>
                     <span style={{ fontSize: 11, color: '#94A3B8' }}>{fmt(stat?.cumActual || 0)}/{fmt(stat?.annualGoal || stat?.cumGoal || 0)}</span>
                   </div>

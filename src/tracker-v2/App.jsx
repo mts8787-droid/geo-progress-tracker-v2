@@ -216,10 +216,11 @@ function computeDashboard(data, month, stakeholderFilter, categoryFilter) {
         if (typeof g.monthly?.[m] === 'number') annualGoal += g.monthly[m]
       })
     })
-    const monthRate = mGoal > 0 ? Math.round((mAct / mGoal) * 1000) / 10 : 0
-    const cumRate = cGoal > 0 ? Math.round((cAct / cGoal) * 1000) / 10 : 0
+    // 목표가 0이면 달성률/진척률은 null (회색 "-" 표기)
+    const monthRate = mGoal > 0 ? Math.round((mAct / mGoal) * 1000) / 10 : null
+    const cumRate = cGoal > 0 ? Math.round((cAct / cGoal) * 1000) / 10 : null
     // 진척율 = 누적 actual / 연간 goal × 100
-    const progressRate = annualGoal > 0 ? Math.round((cAct / annualGoal) * 1000) / 10 : 0
+    const progressRate = annualGoal > 0 ? Math.round((cAct / annualGoal) * 1000) / 10 : null
     const shNames = [...new Set(catGoals.map(g => g.stakeholder))]
     const stakeholders = shNames.map(sh => {
       let smAct = 0, smGoal = 0

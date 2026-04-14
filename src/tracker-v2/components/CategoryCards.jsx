@@ -27,10 +27,12 @@ export default function CategoryCards({ categories, month, lang = 'ko', selected
         gap: 12,
       }}>
         {categories.map(cat => {
-          const mSt = statusOf(cat.monthRate || 0)
-          const pSt = statusOf(cat.progressRate || cat.cumRate || 0)
-          const monthBarW = Math.min(cat.monthRate || 0, 100)
-          const progBarW = Math.min(cat.progressRate || cat.cumRate || 0, 100)
+          const monthRateVal = cat.monthRate == null ? null : cat.monthRate
+          const progRateVal = cat.progressRate == null ? (cat.cumRate == null ? null : cat.cumRate) : cat.progressRate
+          const mSt = statusOf(monthRateVal)
+          const pSt = statusOf(progRateVal)
+          const monthBarW = Math.min(monthRateVal || 0, 100)
+          const progBarW = Math.min(progRateVal || 0, 100)
           const isSelected = selectedCategory === cat.category
           const shCount = (cat.stakeholders && cat.stakeholders.length) || 0
 
@@ -72,7 +74,7 @@ export default function CategoryCards({ categories, month, lang = 'ko', selected
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'nowrap' }}>
                     <span style={{ width: 7, height: 7, borderRadius: '50%', background: mSt.dot, flexShrink: 0 }} />
                     <span style={{ fontSize: 16, fontWeight: 900, color: mSt.text, fontVariantNumeric: 'tabular-nums' }}>
-                      {(cat.monthRate || 0).toFixed(1)}%
+                      {monthRateVal == null ? '—' : `${monthRateVal.toFixed(1)}%`}
                     </span>
                     <span style={{ fontSize: 12, color: '#64748B', fontVariantNumeric: 'tabular-nums', whiteSpace: 'nowrap' }}>
                       {fmt(cat.monthActual || 0)} / {fmt(cat.monthGoal || 0)}
@@ -93,7 +95,7 @@ export default function CategoryCards({ categories, month, lang = 'ko', selected
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'nowrap' }}>
                     <span style={{ width: 7, height: 7, borderRadius: '50%', background: pSt.dot, flexShrink: 0 }} />
                     <span style={{ fontSize: 16, fontWeight: 900, color: pSt.text, fontVariantNumeric: 'tabular-nums' }}>
-                      {(cat.progressRate || cat.cumRate || 0).toFixed(1)}%
+                      {progRateVal == null ? '—' : `${progRateVal.toFixed(1)}%`}
                     </span>
                     <span style={{ fontSize: 12, color: '#64748B', fontVariantNumeric: 'tabular-nums', whiteSpace: 'nowrap' }}>
                       {fmt(cat.cumActual || 0)} / {fmt(cat.annualGoal || cat.cumGoal || 0)}
