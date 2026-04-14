@@ -63,43 +63,48 @@ export default function QualitativeTable({ goals, results, selectedSH, selectedC
 
         return (
           <div key={cat} style={{ borderBottom: '1px solid #E2E8F0' }}>
-            {/* 카테고리 헤더 — 컴팩트 (달성/미달성만 표시) */}
+            {/* 카테고리 헤더 — 정량과 동일한 높이 */}
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: '220px 1fr 110px 110px',
+                gridTemplateColumns: '220px 1fr 1fr 110px 110px',
                 gap: 16,
                 alignItems: 'center',
-                padding: '10px 20px',
+                padding: '14px 20px',
                 background: '#FFFFFF',
                 borderLeft: `5px solid ${headerAccent}`,
+                minHeight: 78,
+                boxSizing: 'border-box',
               }}
             >
               {/* 카테고리명 */}
               <div>
-                <h4 style={{ margin: 0, fontSize: 16, fontWeight: 800, color: '#0F172A' }}>{tCat(lang, cat)}</h4>
-                <p style={{ margin: '2px 0 0', fontSize: 11, color: '#64748B' }}>
+                <h4 style={{ margin: 0, fontSize: 17, fontWeight: 800, color: '#0F172A' }}>{tCat(lang, cat)}</h4>
+                <p style={{ margin: '4px 0 0', fontSize: 12, color: '#64748B' }}>
                   {rows.length}{lang === 'en' ? ' tasks' : '개 과제'}
                 </p>
               </div>
 
-              {/* spacer */}
+              {/* spacer (정량의 월 달성률 자리) */}
+              <div />
+
+              {/* spacer (정량의 연간 진척율 자리) */}
               <div />
 
               {/* 달성 */}
-              <div style={{ textAlign: 'center', padding: '4px 0', background: '#ECFDF5', border: '1px solid #A7F3D0', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
-                <span style={{ fontSize: 10, color: '#15803D', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 700 }}>
+              <div style={{ textAlign: 'center', padding: '6px 0', background: '#ECFDF5', border: '1px solid #A7F3D0', borderRadius: 8 }}>
+                <div style={{ fontSize: 10, color: '#15803D', marginBottom: 2, textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 700 }}>
                   {lang === 'en' ? 'Achieved' : '달성'}
-                </span>
-                <span style={{ fontSize: 18, fontWeight: 900, color: '#15803D', fontVariantNumeric: 'tabular-nums' }}>{sum.achieved}</span>
+                </div>
+                <div style={{ fontSize: 20, fontWeight: 900, color: '#15803D', fontVariantNumeric: 'tabular-nums' }}>{sum.achieved}</div>
               </div>
 
               {/* 미달성 */}
-              <div style={{ textAlign: 'center', padding: '4px 0', background: '#FFF1F2', border: '1px solid #FECDD3', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
-                <span style={{ fontSize: 10, color: '#BE123C', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 700 }}>
+              <div style={{ textAlign: 'center', padding: '6px 0', background: '#FFF1F2', border: '1px solid #FECDD3', borderRadius: 8 }}>
+                <div style={{ fontSize: 10, color: '#BE123C', marginBottom: 2, textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 700 }}>
                   {lang === 'en' ? 'Missed' : '미달성'}
-                </span>
-                <span style={{ fontSize: 18, fontWeight: 900, color: '#BE123C', fontVariantNumeric: 'tabular-nums' }}>{sum.notAch}</span>
+                </div>
+                <div style={{ fontSize: 20, fontWeight: 900, color: '#BE123C', fontVariantNumeric: 'tabular-nums' }}>{sum.notAch}</div>
               </div>
             </div>
 
