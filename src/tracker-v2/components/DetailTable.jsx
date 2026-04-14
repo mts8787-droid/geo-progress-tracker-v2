@@ -151,7 +151,7 @@ export default function DetailTable({ tasks, categoryStats = [], month, lang = '
                         <th style={{ padding: '8px 12px', textAlign: 'right', fontSize: 12, fontWeight: 600, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.05em', width: 70 }}>{t(lang, 'goalLabel')}</th>
                         <th style={{ padding: '8px 12px', textAlign: 'right', fontSize: 12, fontWeight: 600, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.05em', width: 70 }}>{t(lang, 'actualLabel')}</th>
                         <th style={{ padding: '8px 12px', textAlign: 'center', fontSize: 12, fontWeight: 600, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.05em', width: 90 }}>{t(lang, 'rateLabel')}</th>
-                        <th style={{ padding: '8px 12px', textAlign: 'right', fontSize: 12, fontWeight: 600, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.05em', width: 70 }}>{t(lang, 'annualGoal')}</th>
+                        <th style={{ padding: '8px 12px', textAlign: 'right', fontSize: 12, fontWeight: 600, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.05em', width: 90, whiteSpace: 'nowrap' }}>{t(lang, 'annualGoal')}</th>
                       </tr>
                     </thead>
                     <tbody>
