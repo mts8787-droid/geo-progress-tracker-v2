@@ -546,39 +546,70 @@ export default function App() {
               </div>
             </section>
 
-            {/* 정량 과제 상세 (카테고리별 진척 + 과제 리스트 통합) */}
-            <section style={{ marginBottom: 32 }}>
-              <SectionHeader
-                title={lang === 'en' ? 'Quantitative Tasks by Category' : '정량 과제 (카테고리별)'}
-                subtitle={lang === 'en' ? 'Category-level progress with task details' : '카테고리별 진척 및 과제 상세'}
-              />
-              <DetailTable
-                tasks={dashboard.tasks}
-                categoryStats={dashboard.categoryStats}
-                month={selectedMonth}
-                lang={lang}
-                tr={taskTranslations}
-              />
-            </section>
+            {/* 카테고리별 섹션 (각 카테고리 = 정량 + 정성) */}
+            {dashboard.categoryStats
+              .filter(c => !selectedCategory || c.category === selectedCategory)
+              .map(c => {
+                const catTasks = dashboard.tasks.filter(t => t.taskCategory === c.category)
+                return (
+                  <section key={c.category} style={{ marginBottom: 36 }}>
+                    <SectionHeader
+                      title={c.category}
+                      subtitle={lang === 'en' ? 'Quantitative & Qualitative tasks' : '정량 · 정성 과제'}
+                    />
 
-            {/* 정성 과제 상세 */}
-            {data && (
-              <section style={{ marginBottom: 32 }}>
-                <SectionHeader
-                  title={lang === 'en' ? 'Qualitative Tasks' : '정성 과제'}
-                  subtitle={lang === 'en' ? 'Category-level status with task details' : '카테고리별 달성 현황 및 과제 상세'}
-                />
-                <QualitativeTable
-                  goals={data.qualitativeGoals.rows}
-                  results={data.qualitativeResults.rows}
-                  selectedSH={selectedSH}
-                  selectedCategory={selectedCategory}
-                  month={selectedMonth}
-                  lang={lang}
-                  tr={taskTranslations}
-                />
-              </section>
-            )}
+                    {/* 정량 과제 */}
+                    <div style={{ marginBottom: 16 }}>
+                      <h4 style={{
+                        margin: '0 0 8px',
+                        fontSize: 15,
+                        fontWeight: 700,
+                        color: '#0F172A',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 8,
+                      }}>
+                        <span style={{ display: 'inline-block', width: 3, height: 16, background: '#CF0652', borderRadius: 2 }} />
+                        {lang === 'en' ? 'Quantitative' : '정량 과제'}
+                      </h4>
+                      <DetailTable
+                        tasks={catTasks}
+                        categoryStats={[c]}
+                        month={selectedMonth}
+                        lang={lang}
+                        tr={taskTranslations}
+                      />
+                    </div>
+
+                    {/* 정성 과제 */}
+                    {data && (
+                      <div>
+                        <h4 style={{
+                          margin: '0 0 8px',
+                          fontSize: 15,
+                          fontWeight: 700,
+                          color: '#0F172A',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 8,
+                        }}>
+                          <span style={{ display: 'inline-block', width: 3, height: 16, background: '#CF0652', borderRadius: 2 }} />
+                          {lang === 'en' ? 'Qualitative' : '정성 과제'}
+                        </h4>
+                        <QualitativeTable
+                          goals={data.qualitativeGoals.rows}
+                          results={data.qualitativeResults.rows}
+                          selectedSH={selectedSH}
+                          selectedCategory={c.category}
+                          month={selectedMonth}
+                          lang={lang}
+                          tr={taskTranslations}
+                        />
+                      </div>
+                    )}
+                  </section>
+                )
+              })}
 
             {data && (
               <section style={{ marginBottom: 32 }}>
