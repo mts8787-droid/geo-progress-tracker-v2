@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { STAKEHOLDER_COLORS } from '../utils/constants'
 import { t, tSH, tCat, tMonth } from '../../shared/i18n.js'
 
@@ -20,8 +19,6 @@ function catSortKey(name) {
 }
 
 export default function QualitativeTable({ goals, results, selectedSH, selectedCategory, month, lang = 'ko', tr = {} }) {
-  const [expanded, setExpanded] = useState({})
-
   let filtered = results
   if (selectedSH !== '전체') filtered = filtered.filter(r => r.stakeholder === selectedSH)
   if (selectedCategory) filtered = filtered.filter(r => {
@@ -40,22 +37,15 @@ export default function QualitativeTable({ goals, results, selectedSH, selectedC
   })
   const cats = Object.keys(byCategory).sort((a, b) => catSortKey(a) - catSortKey(b))
 
-  // 카테고리별 요약: 달성/진행/미달성/미정 카운트
+  // 카테고리별 요약: 달성/미달성 카운트 (진행/미정은 박스 표시하지 않음)
   function summarize(rows) {
-    let achieved = 0, inprog = 0, notAch = 0, blank = 0
+    let achieved = 0, notAch = 0
     rows.forEach(r => {
       const v = String(r.monthly?.[month] ?? '').trim().toUpperCase()
-      if (!v) blank++
-      else if (v === 'PASS' || v === 'O' || v === 'Y' || v === 'YES' || v === '완료' || v === '달성') achieved++
+      if (v === 'PASS' || v === 'O' || v === 'Y' || v === 'YES' || v === '완료' || v === '달성') achieved++
       else if (v === 'NON-PASS' || v === 'NONPASS' || v === 'X' || v === 'N' || v === 'NO' || v === '미달성') notAch++
-      else if (v === '진행중' || v === '진행' || v === 'WIP' || v === 'ING' || v === '추진') inprog++
-      else blank++
     })
-    return { achieved, inprog, notAch, blank }
-  }
-
-  function toggleExpand(cat) {
-    setExpanded(s => ({ ...s, [cat]: !s[cat] }))
+    return { achieved, notAch }
   }
 
   return (
@@ -69,69 +59,51 @@ export default function QualitativeTable({ goals, results, selectedSH, selectedC
       {cats.map(cat => {
         const rows = byCategory[cat]
         const sum = summarize(rows)
-        const isOpen = !!expanded[cat]
         const headerAccent = sum.notAch > sum.achieved ? '#BE123C' : sum.achieved > 0 ? '#15803D' : '#94A3B8'
 
         return (
           <div key={cat} style={{ borderBottom: '1px solid #E2E8F0' }}>
-            {/* 카테고리 큰 헤더 — 달성/진행/미달성만 표시 */}
+            {/* 카테고리 헤더 — 컴팩트 (달성/미달성만 표시) */}
             <div
-              role="button"
-              tabIndex={0}
-              onClick={() => toggleExpand(cat)}
-              onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleExpand(cat) } }}
               style={{
                 display: 'grid',
-                gridTemplateColumns: '1fr 110px 110px 110px 30px',
-                gap: 16,
+                gridTemplateColumns: '1fr 90px 90px',
+                gap: 14,
                 alignItems: 'center',
-                padding: '16px 20px',
-                cursor: 'pointer',
-                background: isOpen ? '#F8FAFC' : '#FFFFFF',
+                padding: '8px 20px',
+                background: '#FFFFFF',
                 borderLeft: `5px solid ${headerAccent}`,
-                transition: 'background 0.15s',
               }}
             >
               {/* 카테고리명 */}
               <div>
-                <h4 style={{ margin: 0, fontSize: 17, fontWeight: 800, color: '#0F172A' }}>{tCat(lang, cat)}</h4>
-                <p style={{ margin: '4px 0 0', fontSize: 12, color: '#64748B' }}>
-                  {rows.length}{lang === 'en' ? ' tasks' : '개 과제'}
-                </p>
+                <h4 style={{ margin: 0, fontSize: 16, fontWeight: 800, color: '#0F172A' }}>
+                  {tCat(lang, cat)}
+                  <span style={{ marginLeft: 8, fontSize: 12, fontWeight: 500, color: '#64748B' }}>
+                    {rows.length}{lang === 'en' ? ' tasks' : '개 과제'}
+                  </span>
+                </h4>
               </div>
 
               {/* 달성 */}
-              <div style={{ textAlign: 'center', padding: '8px 0', background: '#ECFDF5', border: '1px solid #A7F3D0', borderRadius: 8 }}>
-                <div style={{ fontSize: 10, color: '#15803D', marginBottom: 2, textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 700 }}>
+              <div style={{ textAlign: 'center', padding: '3px 0', background: '#ECFDF5', border: '1px solid #A7F3D0', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+                <span style={{ fontSize: 10, color: '#15803D', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 700 }}>
                   {lang === 'en' ? 'Achieved' : '달성'}
-                </div>
-                <div style={{ fontSize: 22, fontWeight: 900, color: '#15803D', fontVariantNumeric: 'tabular-nums' }}>{sum.achieved}</div>
-              </div>
-
-              {/* 진행 */}
-              <div style={{ textAlign: 'center', padding: '8px 0', background: '#FFFBEB', border: '1px solid #FDE68A', borderRadius: 8 }}>
-                <div style={{ fontSize: 10, color: '#D97706', marginBottom: 2, textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 700 }}>
-                  {lang === 'en' ? 'In Progress' : '진행'}
-                </div>
-                <div style={{ fontSize: 22, fontWeight: 900, color: '#D97706', fontVariantNumeric: 'tabular-nums' }}>{sum.inprog}</div>
+                </span>
+                <span style={{ fontSize: 16, fontWeight: 900, color: '#15803D', fontVariantNumeric: 'tabular-nums' }}>{sum.achieved}</span>
               </div>
 
               {/* 미달성 */}
-              <div style={{ textAlign: 'center', padding: '8px 0', background: '#FFF1F2', border: '1px solid #FECDD3', borderRadius: 8 }}>
-                <div style={{ fontSize: 10, color: '#BE123C', marginBottom: 2, textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 700 }}>
+              <div style={{ textAlign: 'center', padding: '3px 0', background: '#FFF1F2', border: '1px solid #FECDD3', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+                <span style={{ fontSize: 10, color: '#BE123C', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 700 }}>
                   {lang === 'en' ? 'Missed' : '미달성'}
-                </div>
-                <div style={{ fontSize: 22, fontWeight: 900, color: '#BE123C', fontVariantNumeric: 'tabular-nums' }}>{sum.notAch}</div>
-              </div>
-
-              {/* 펼침 화살표 */}
-              <div style={{ textAlign: 'center', fontSize: 18, color: '#94A3B8', userSelect: 'none' }}>
-                {isOpen ? '▾' : '▸'}
+                </span>
+                <span style={{ fontSize: 16, fontWeight: 900, color: '#BE123C', fontVariantNumeric: 'tabular-nums' }}>{sum.notAch}</span>
               </div>
             </div>
 
-            {/* 펼침 영역: 과제 리스트 테이블 */}
-            {isOpen && rows.length > 0 && (
+            {/* 과제 리스트 — 항상 펼쳐짐 */}
+            {rows.length > 0 && (
               <div style={{ borderTop: '1px solid #E2E8F0', background: '#FFFFFF' }}>
                 <div className="overflow-x-auto">
                   <table style={{ width: '100%', fontSize: 14, borderCollapse: 'collapse' }}>
