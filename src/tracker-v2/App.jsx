@@ -551,25 +551,28 @@ export default function App() {
               .filter(c => !selectedCategory || c.category === selectedCategory)
               .map(c => {
                 const catTasks = dashboard.tasks.filter(t => t.taskCategory === c.category)
+                // 해당 카테고리에 속하면서 selectedSH 조건을 만족하는 정성 과제가 있는지
+                const qualRows = data?.qualitativeResults?.rows || []
+                const qualGoals = data?.qualitativeGoals?.rows || []
+                const hasQual = qualRows.some(r => {
+                  if (selectedSH !== '전체' && r.stakeholder !== selectedSH) return false
+                  const cat = r.taskCategory
+                    || qualGoals.find(g => g.stakeholder === r.stakeholder && g.task === r.task)?.taskCategory
+                  return cat === c.category
+                })
+
                 return (
                   <section key={c.category} style={{ marginBottom: 36 }}>
-                    <SectionHeader
-                      title={c.category}
-                      subtitle={lang === 'en' ? 'Quantitative & Qualitative tasks' : '정량 · 정성 과제'}
-                    />
+                    <SectionHeader title={c.category} accentBar />
 
                     {/* 정량 과제 */}
                     <div style={{ marginBottom: 16 }}>
                       <h4 style={{
                         margin: '0 0 8px',
-                        fontSize: 15,
+                        fontSize: 17,
                         fontWeight: 700,
                         color: '#0F172A',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 8,
                       }}>
-                        <span style={{ display: 'inline-block', width: 3, height: 16, background: '#CF0652', borderRadius: 2 }} />
                         {lang === 'en' ? 'Quantitative' : '정량 과제'}
                       </h4>
                       <DetailTable
@@ -581,19 +584,15 @@ export default function App() {
                       />
                     </div>
 
-                    {/* 정성 과제 */}
-                    {data && (
+                    {/* 정성 과제 — 과제 없으면 숨김 */}
+                    {data && hasQual && (
                       <div>
                         <h4 style={{
                           margin: '0 0 8px',
-                          fontSize: 15,
+                          fontSize: 17,
                           fontWeight: 700,
                           color: '#0F172A',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: 8,
                         }}>
-                          <span style={{ display: 'inline-block', width: 3, height: 16, background: '#CF0652', borderRadius: 2 }} />
                           {lang === 'en' ? 'Qualitative' : '정성 과제'}
                         </h4>
                         <QualitativeTable

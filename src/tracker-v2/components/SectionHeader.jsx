@@ -1,8 +1,19 @@
 // 일관된 섹션 헤더 — 제목 + 부제 inline, 검은색 통일, 실선 구분선
-export default function SectionHeader({ title, subtitle, color = '#0F172A', dividerColor = '#E2E8F0' }) {
+export default function SectionHeader({ title, subtitle, color = '#0F172A', dividerColor = '#E2E8F0', accentBar = false }) {
   return (
     <div style={{ marginBottom: 14 }}>
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 14, flexWrap: 'wrap' }}>
+        {accentBar && (
+          <span style={{
+            alignSelf: 'center',
+            display: 'inline-block',
+            width: 5,
+            height: 24,
+            background: '#CF0652',
+            borderRadius: 3,
+            flexShrink: 0,
+          }} />
+        )}
         <h2 style={{
           margin: 0, fontSize: 22, fontWeight: 900, color,
           letterSpacing: '-0.01em',
