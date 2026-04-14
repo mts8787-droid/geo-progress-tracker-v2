@@ -582,7 +582,7 @@ export default function App() {
                       boxShadow: '0 1px 2px rgba(15,23,42,0.04)',
                     }}
                   >
-                    <SectionHeader title={c.category} accentBar />
+                    <SectionHeader title={c.category} accentBar legend />
 
                     {/* 정량 과제 */}
                     <div style={{ marginBottom: 16 }}>
