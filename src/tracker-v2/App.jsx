@@ -571,7 +571,17 @@ export default function App() {
                 })
 
                 return (
-                  <section key={c.category} style={{ marginBottom: 36 }}>
+                  <section
+                    key={c.category}
+                    style={{
+                      marginBottom: 24,
+                      background: '#F8FAFC',
+                      border: '1px solid #E2E8F0',
+                      borderRadius: 16,
+                      padding: '20px 20px 24px',
+                      boxShadow: '0 1px 2px rgba(15,23,42,0.04)',
+                    }}
+                  >
                     <SectionHeader title={c.category} accentBar />
 
                     {/* 정량 과제 */}

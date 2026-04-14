@@ -48,21 +48,33 @@ export default function QualitativeTable({ goals, results, selectedSH, selectedC
     return { achieved, notAch }
   }
 
-  return (
-    <div style={{ background: '#FFFFFF', border: '1px solid #E2E8F0', borderRadius: 12, overflow: 'hidden', boxShadow: '0 1px 3px rgba(15,23,42,0.06)' }}>
-      {cats.length === 0 && (
-        <p style={{ padding: '32px 12px', textAlign: 'center', color: '#94A3B8', fontSize: 16, margin: 0 }}>
-          {t(lang, 'noQualTasks')}
-        </p>
-      )}
+  if (cats.length === 0) {
+    return (
+      <div style={{ background: '#FFFFFF', border: '1px solid #E2E8F0', borderRadius: 12, padding: '32px 12px', textAlign: 'center', color: '#94A3B8', fontSize: 16 }}>
+        {t(lang, 'noQualTasks')}
+      </div>
+    )
+  }
 
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
       {cats.map(cat => {
         const rows = byCategory[cat]
         const sum = summarize(rows)
         const headerAccent = sum.notAch > sum.achieved ? '#BE123C' : sum.achieved > 0 ? '#15803D' : '#94A3B8'
 
         return (
-          <div key={cat} style={{ borderBottom: '1px solid #E2E8F0' }}>
+          <div
+            key={cat}
+            style={{
+              background: '#FFFFFF',
+              border: '1px solid #E2E8F0',
+              borderRadius: 12,
+              overflow: 'hidden',
+              boxShadow: '0 1px 3px rgba(15,23,42,0.06)',
+              borderLeft: `5px solid ${headerAccent}`,
+            }}
+          >
             {/* 카테고리 헤더 — 정량과 동일한 높이 */}
             <div
               style={{
@@ -72,7 +84,6 @@ export default function QualitativeTable({ goals, results, selectedSH, selectedC
                 alignItems: 'center',
                 padding: '14px 20px',
                 background: '#FFFFFF',
-                borderLeft: `5px solid ${headerAccent}`,
                 minHeight: 78,
                 boxSizing: 'border-box',
               }}
