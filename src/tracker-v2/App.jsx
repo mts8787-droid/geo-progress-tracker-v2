@@ -575,7 +575,7 @@ export default function App() {
                     key={c.category}
                     style={{
                       marginBottom: 24,
-                      background: '#F8FAFC',
+                      background: '#FFFFFF',
                       border: '1px solid #E2E8F0',
                       borderRadius: 16,
                       padding: '20px 20px 24px',
