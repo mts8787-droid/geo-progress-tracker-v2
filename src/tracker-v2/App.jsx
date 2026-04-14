@@ -71,7 +71,7 @@ function computeDashboard(data, month, stakeholderFilter, categoryFilter) {
       actualAnnual: typeof a.annual === 'number' ? a.annual : 0,
       goal,
       actual,
-      rate: computedRate !== null ? computedRate : sheetRate,
+      rate: goal > 0 ? (computedRate !== null ? computedRate : sheetRate) : null,
       goalMonthly: g.monthly,
       actualMonthly: a.monthly,
       rateMonthly: r.monthly,
@@ -137,7 +137,7 @@ function computeDashboard(data, month, stakeholderFilter, categoryFilter) {
     const av = typeof a.monthly?.[month] === 'number' ? a.monthly[month] : 0
     const sheetRate = parseRate(r.monthly?.[month])
     const computedRate = gv > 0 ? Math.round((av / gv) * 1000) / 10 : null
-    return { stakeholder: g.stakeholder, taskCategory: g.taskCategory, task: g.task, rate: computedRate !== null ? computedRate : sheetRate, goalMonthly: g.monthly, actualMonthly: a.monthly }
+    return { stakeholder: g.stakeholder, taskCategory: g.taskCategory, task: g.task, rate: gv > 0 ? (computedRate !== null ? computedRate : sheetRate) : null, goalMonthly: g.monthly, actualMonthly: a.monthly }
   })
   if (categoryFilter) {
     allTasks = allTasks.filter(t => t.taskCategory === categoryFilter)
@@ -235,7 +235,7 @@ function computeDashboard(data, month, stakeholderFilter, categoryFilter) {
         smAct += tAct
         const sheetRate = parseRate(r.monthly?.[month])
         const computed = tGoal > 0 ? Math.round((tAct / tGoal) * 1000) / 10 : null
-        const tRate = computed !== null ? computed : sheetRate
+        const tRate = tGoal > 0 ? (computed !== null ? computed : sheetRate) : null
         shTasks.push({ task: g.task, rate: tRate, actual: tAct, goal: tGoal })
       })
       const rate = smGoal > 0 ? Math.round((smAct / smGoal) * 1000) / 10 : 0
