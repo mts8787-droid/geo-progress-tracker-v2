@@ -258,12 +258,14 @@ function computeDashboard(data, month, stakeholderFilter, categoryFilter) {
   })
 
   // 카테고리 표시 순서 고정: 콘텐츠수정 → 신규콘텐츠제작 → 외부채널관리 → 닷컴기술개선
+  // 시트 원본의 공백 유무 차이를 흡수하기 위해 공백 제거 후 비교
   const CATEGORY_ORDER = ['콘텐츠수정', '신규콘텐츠제작', '외부채널관리', '닷컴기술개선']
-  categoryStats.sort((a, b) => {
-    const ai = CATEGORY_ORDER.indexOf(a.category)
-    const bi = CATEGORY_ORDER.indexOf(b.category)
-    return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi)
-  })
+  const catIdx = (name) => {
+    const key = String(name || '').replace(/\s+/g, '')
+    const i = CATEGORY_ORDER.indexOf(key)
+    return i === -1 ? 999 : i
+  }
+  categoryStats.sort((a, b) => catIdx(a.category) - catIdx(b.category))
 
   const totalsRate = parseRate(rates.totals?.monthly?.[month])
   const currentMT = monthlyTotals.find(t => t.month === month)
@@ -364,10 +366,11 @@ export default function App() {
   const categoryList = useMemo(() => {
     if (!data) return []
     const ORDER = ['콘텐츠수정', '신규콘텐츠제작', '외부채널관리', '닷컴기술개선']
+    const norm = s => String(s || '').replace(/\s+/g, '')
     const list = [...new Set(data.quantitativeGoals.rows.map(r => r.taskCategory).filter(Boolean))]
     return list.sort((a, b) => {
-      const ai = ORDER.indexOf(a)
-      const bi = ORDER.indexOf(b)
+      const ai = ORDER.indexOf(norm(a))
+      const bi = ORDER.indexOf(norm(b))
       return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi)
     })
   }, [data])
