@@ -71,14 +71,14 @@ export default function DetailTable({ tasks, categoryStats = [], month, lang = '
                 gridTemplateColumns: '220px 1fr 1fr 110px 110px',
                 gap: 16,
                 alignItems: 'center',
-                padding: '16px 20px',
+                padding: '10px 20px',
                 background: '#FFFFFF',
               }}
             >
               {/* 카테고리명 */}
               <div>
-                <h4 style={{ margin: 0, fontSize: 17, fontWeight: 800, color: '#0F172A' }}>{tCat(lang, cat)}</h4>
-                <p style={{ margin: '4px 0 0', fontSize: 12, color: '#64748B' }}>
+                <h4 style={{ margin: 0, fontSize: 16, fontWeight: 800, color: '#0F172A' }}>{tCat(lang, cat)}</h4>
+                <p style={{ margin: '2px 0 0', fontSize: 11, color: '#64748B' }}>
                   {rows.length}{lang === 'en' ? ' tasks' : '개 과제'}
                   {stat?.stakeholders?.length ? ` · ${stat.stakeholders.length}${lang === 'en' ? ' orgs' : '개 조직'}` : ''}
                 </p>
@@ -86,54 +86,54 @@ export default function DetailTable({ tasks, categoryStats = [], month, lang = '
 
               {/* 월 달성률 */}
               <div>
-                <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 5 }}>
+                <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 3 }}>
                   <span style={{ fontSize: 11, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                     {tMonth(lang, month)} {lang === 'en' ? 'Rate' : '달성률'}
                   </span>
                   <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
-                    <span style={{ fontSize: 22, fontWeight: 900, color: ms.text, fontVariantNumeric: 'tabular-nums' }}>
-                      {monthRateVal == null ? '—' : <>{monthRateVal.toFixed(0)}<span style={{ fontSize: 14 }}>%</span></>}
+                    <span style={{ fontSize: 18, fontWeight: 900, color: ms.text, fontVariantNumeric: 'tabular-nums' }}>
+                      {monthRateVal == null ? '—' : <>{monthRateVal.toFixed(0)}<span style={{ fontSize: 12 }}>%</span></>}
                     </span>
                     <span style={{ fontSize: 11, color: '#94A3B8' }}>{fmt(stat?.monthActual || 0)}/{fmt(stat?.monthGoal || 0)}</span>
                   </div>
                 </div>
-                <div style={{ height: 8, background: '#F1F5F9', borderRadius: 4, overflow: 'hidden' }}>
-                  <div style={{ height: '100%', borderRadius: 4, width: `${monthBarW}%`, background: ms.bar, transition: 'width 0.7s' }} />
+                <div style={{ height: 6, background: '#F1F5F9', borderRadius: 3, overflow: 'hidden' }}>
+                  <div style={{ height: '100%', borderRadius: 3, width: `${monthBarW}%`, background: ms.bar, transition: 'width 0.7s' }} />
                 </div>
               </div>
 
               {/* 연간 진척율 */}
               <div>
-                <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 5 }}>
+                <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 3 }}>
                   <span style={{ fontSize: 11, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                     {lang === 'en' ? 'Annual Progress' : '연간 진척율'}
                   </span>
                   <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
-                    <span style={{ fontSize: 22, fontWeight: 900, color: ps.text, fontVariantNumeric: 'tabular-nums' }}>
-                      {progRateVal == null ? '—' : <>{progRateVal.toFixed(0)}<span style={{ fontSize: 14 }}>%</span></>}
+                    <span style={{ fontSize: 18, fontWeight: 900, color: ps.text, fontVariantNumeric: 'tabular-nums' }}>
+                      {progRateVal == null ? '—' : <>{progRateVal.toFixed(0)}<span style={{ fontSize: 12 }}>%</span></>}
                     </span>
                     <span style={{ fontSize: 11, color: '#94A3B8' }}>{fmt(stat?.cumActual || 0)}/{fmt(stat?.annualGoal || stat?.cumGoal || 0)}</span>
                   </div>
                 </div>
-                <div style={{ height: 8, background: '#F1F5F9', borderRadius: 4, overflow: 'hidden' }}>
-                  <div style={{ height: '100%', borderRadius: 4, width: `${progBarW}%`, background: ps.bar, transition: 'width 0.7s' }} />
+                <div style={{ height: 6, background: '#F1F5F9', borderRadius: 3, overflow: 'hidden' }}>
+                  <div style={{ height: '100%', borderRadius: 3, width: `${progBarW}%`, background: ps.bar, transition: 'width 0.7s' }} />
                 </div>
               </div>
 
               {/* 달성과제 */}
-              <div style={{ textAlign: 'center', padding: '8px 0', background: '#ECFDF5', border: '1px solid #A7F3D0', borderRadius: 8 }}>
-                <div style={{ fontSize: 10, color: '#15803D', marginBottom: 2, textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 700 }}>
+              <div style={{ textAlign: 'center', padding: '4px 0', background: '#ECFDF5', border: '1px solid #A7F3D0', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+                <span style={{ fontSize: 10, color: '#15803D', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 700 }}>
                   {lang === 'en' ? 'Achieved' : '달성'}
-                </div>
-                <div style={{ fontSize: 22, fontWeight: 900, color: '#15803D', fontVariantNumeric: 'tabular-nums' }}>{stat?.achieved || 0}</div>
+                </span>
+                <span style={{ fontSize: 18, fontWeight: 900, color: '#15803D', fontVariantNumeric: 'tabular-nums' }}>{stat?.achieved || 0}</span>
               </div>
 
               {/* 미달성과제 */}
-              <div style={{ textAlign: 'center', padding: '8px 0', background: '#FFF1F2', border: '1px solid #FECDD3', borderRadius: 8 }}>
-                <div style={{ fontSize: 10, color: '#BE123C', marginBottom: 2, textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 700 }}>
+              <div style={{ textAlign: 'center', padding: '4px 0', background: '#FFF1F2', border: '1px solid #FECDD3', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+                <span style={{ fontSize: 10, color: '#BE123C', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 700 }}>
                   {lang === 'en' ? 'Missed' : '미달성'}
-                </div>
-                <div style={{ fontSize: 22, fontWeight: 900, color: '#BE123C', fontVariantNumeric: 'tabular-nums' }}>{stat?.missed || 0}</div>
+                </span>
+                <span style={{ fontSize: 18, fontWeight: 900, color: '#BE123C', fontVariantNumeric: 'tabular-nums' }}>{stat?.missed || 0}</span>
               </div>
             </div>
 
